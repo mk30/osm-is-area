@@ -26,12 +26,7 @@ module.exports = function isArea (tags) {
   var tagKeys = Object.keys(tags)
   var result = false
   tagKeys.forEach(function (key) {
-    result = result || testKey(key, tagKeys[key])
-    console.log(result)
+    result = result || testKey(key, tags[key])
   })
   return result
-
-  //return true or false
-
 }
-//arg should be an object full of key value pairs
