@@ -1,32 +1,36 @@
 var polygonFeatures = require('osm-polygon-features')
-var testWays = require('./testways.js')
 
-function testKey (tagKey, listValue) {
+function testItem (item) {
   var isArea = false
-  polygonFeatures.forEach(function (obj) {
-    if (tagKey === obj.key && obj.polygon === 'all') {
-      isArea = true
-    }
-    else if (tagKey === obj.key && obj.polygon === 'whitelist') {
-      obj.values.forEach(function (val) {
-        if (listValue === val) { isArea = true } 
-      })
-    }
-    else if (tagKey === obj.key && obj.polygon === 'blacklist') {
-      isArea = true  
-      obj.values.forEach(function (val) {
-        if (listValue === val) { isArea = false }
-      })
-    }
-  })
-  return isArea
+  if (item.type === 'node') { isArea = false }
+  else if (item.type === 'way' && item.refs[0] === item.refs[item.refs.length - 1]) {
+    if (item.tags === {}) { isArea = false }
+    else if (item.tags[area] === 'no') { isArea = false }
+    else polygonFeatures.forEach(function (obj) {
+      if (item.key === obj.key && obj.polygon === 'all' && item.tags[key] !== 'no') {
+        isArea = true
+      }
+      else if (item.key === obj.key && obj.polygon === 'whitelist') {
+        obj.values.forEach(function (val) {
+          if (item.tags[key] === val) { isArea = true } 
+        })
+      }
+      else if (item.key === obj.key && obj.polygon === 'blacklist') {
+        isArea = true  
+        obj.values.forEach(function (val) {
+          if (item.tags[key] === val) { isArea = false }
+        })
+      }
+    })
+    return isArea
+  }
+  else if (item.type === 'relation') { return 'relation' }
 }
 
-module.exports = function isArea (tags) {
-  var tagKeys = Object.keys(tags)
+module.exports = function isArea (itemArray) {
   var result = false
-  tagKeys.forEach(function (key) {
-    result = result || testKey(key, tags[key])
+  itemArray.forEach(function (item) {
+    result = result || testItem(item)
+    return result
   })
-  return result
 }
