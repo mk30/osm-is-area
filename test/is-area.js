@@ -2,42 +2,101 @@ var isArea = require('../')
 var test = require('tape')
 
 test('is-area', function (t) {
-  t.ok(isArea({ 'natural' : 'wood' }))
-  t.notOk(isArea({ 'highway': 'primary', 'surface': 'asphalt' }))
-  t.notOk(isArea({ 'highway': 'service' }))
-  t.ok(isArea({ 'waterway': 'riverbank' }))
-  t.ok(isArea({ 'name': 'Щербачевский лес', 'natural': 'wood' }))
-  t.ok(isArea({ 'name': 'Лісовий заказник «Григорівський бір»', 'boundary': 'protected_area' }))
-  t.ok(isArea({ 'area': 'yes', 'name': '6 платформа', 'railway': 'platform' }))
-  t.ok(isArea({ 'name': 'Зустріч', 'leisure': 'park', 'name:ru': 'Парк «Зустрич»' }))
-  t.ok(isArea({ 'fee': 'no', 'amenity': 'parking', 'parking': 'surface' }))
-  t.notOk(isArea({ 'highway': 'tertiary' }))
-  t.ok(isArea({ 'landuse': 'landfill' }))
-  t.notOk(isArea({ 'name': 'Роганка', 'name:en': 'Rohanka', 'name:ru': 'Роганка', 'waterway': 'river' }))
-  t.notOk(isArea({ 'highway': 'primary_link', 'surface': 'asphalt' }))
-  t.ok(isArea( { 'name': 'Харківський Політехнічний Інститут', 'amenity': 'university', 'name:de': 'Polytechnisches Institut Charkiw', 'name:en': 'Kharkiv Polytechnic Institute', 'name:uk': 'Харківський Політехнічний Інститут', 'name:zh': '哈尔科夫理工学院', 'website': 'http://www.kpi.kharkov.ua', 'wikidata': 'Q1164068' }))
-  t.ok(isArea({ 'name': 'Завод ім. Малишева', 'landuse': 'industrial', 'name:ru': 'Завод им. Малышева'})) 
-  t.notOk(isArea({ 'name': 'Новаторський в’їзд', 'highway': 'service', 'name:ru': 'Новаторский въезд', 'name:uk': 'Новаторський в’їзд' }))
-  t.notOk(isArea({ 'highway': 'unclassified' }))
-  t.notOk(isArea({}))
-  t.ok(isArea({ 'building': 'yes' }))
-  t.ok(isArea({ 'landuse': 'grass' }))
-  t.ok(isArea({ 'name': 'Спорткомплекс "Планета"', 'leisure': 'sports_centre', 'building': 'yes' }))
-  t.notOk(isArea({ 'layer': '-5', 'tunnel': 'yes', 'railway': 'subway' }))
-  t.notOk(isArea({ 'gauge': '1520', 'usage': 'main', 'railway': 'rail', 'voltage': '3000', 'frequency': '0', 'electrified': 'contact_line' }))
-  t.notOk(isArea( { 'boat': 'no', 'name': 'Харків', 'name:en': 'Kharkiv', 'name:ru': 'Харьков', 'waterway': 'river' }))
-  t.ok(isArea({ 'boat': 'no', 'name': 'Харків', 'name:en': 'Kharkiv', 'name:ru': 'Харьков', 'waterway': 'riverbank' }))
-  t.notOk(isArea({ 'barrier': 'fence' }))
-  t.ok(isArea({ 'natural': 'water' }))
-  t.ok(isArea({ 'water': 'reservoir', 'natural': 'water' }))
-  t.ok(isArea({ 'amenity': 'place_of_worship', 'building': 'yes', 'religion': 'muslim' }))
-  t.ok(isArea({ 'name': 'Велта', 'shop': 'mall', 'building': 'yes', 'addr:city': 'Харьков' }))
-  t.notOk(isArea({ 'waterway': 'stream' }))
-  t.ok(isArea({ 'sport': 'soccer', 'leisure': 'pitch' }))
-  t.ok(isArea({ 'area': 'yes', 'railway': 'turntable' }))
-  // { railway: 'subway', service: 'yard' } service isn't in the list
-  t.notOk(isArea({ 'railway': 'tram' }))
-  t.ok(isArea({ 'building': 'yes', 'abandoned': 'yes' }))
-
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 258759125, 1124987434, 1625196725, 258759125 ],
+		'tags' : { 'name': 'Щербачевский лес', 'natural' : 'wood' }
+  }]), 'natural: wood')
+  t.notOk(isArea([{ 'type' : 'node' }]), 'node')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 295875125, 1249874134, 6625196725, 453667909 ],
+		'tags' : { 'highway' : 'service' }
+  }]), 'not a closed way')
+  t.notOk(isArea([{ 
+    'type' : 'relation',
+    'refs' : [ 5872259125, 2114987434, 7625196725, 753667909 ],
+		'tags' : { 'highway': 'primary', 'surface': 'asphalt' }
+	}]), 'relation')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
+		'tags' : { 'area': 'yes', 'name': '6 платформа', 'railway': 'platform' }
+	}]), 'area: yes')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
+		'tags' : { 'name': 'Лісовий заказник «Григорівський бір»', 'boundary': 'protected_area' }
+	}]), 'boundary: protected_area')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
+		'tags' : {}
+	}]), 'empty tags object')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
+		'tags' : { 'fee': 'no', 'amenity': 'parking', 'parking': 'surface' }
+	}]), 'amenity: parking')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
+		'tags' : { 'name': 'Завод ім. Малишева', 'landuse': 'industrial', 'name:ru': 'Завод им. Малышева'}
+  }]), 'landuse: industrial')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
+		'tags' : { 'waterway': 'riverbank' }
+  }]), 'waterway: riverbank')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667919, 2114987434, 7625196725, 753667919 ],
+		'tags' : { 'name': 'Зустріч', 'leisure': 'park', 'name:ru': 'Парк «Зустрич»' }
+  }]), 'leisure: park')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667919, 2114987434, 7625196725, 753667919 ],
+		'tags' : { 'name': 'Роганка', 'name:en': 'Rohanka', 'name:ru': 'Роганка', 'waterway': 'river' }
+  }]), 'waterway: river')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667919, 2114987434, 7625196725, 753667919 ],
+		'tags' : { 'name': 'Харківський Політехнічний Інститут', 'amenity': 'university', 'name:de': 'Polytechnisches Institut Charkiw', 'name:en': 'Kharkiv Polytechnic Institute', 'name:uk': 'Харківський Політехнічний Інститут', 'name:zh': '哈尔科夫理工学院', 'website': 'http://www.kpi.kharkov.ua', 'wikidata': 'Q1164068' }
+  }]), 'amenity: university')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667919, 2114987434, 7625196725, 753667919 ],
+		'tags' : { 'layer': '-5', 'tunnel': 'yes', 'railway': 'subway' }
+  }]), 'railway: subway')
+  t.ok(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 753667919, 2114987434, 7625196725, 753667919 ],
+		'tags' : { 'amenity': 'place_of_worship', 'building': 'yes', 'religion': 'muslim' }
+  }]), 'amenity & building')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
+		'tags' : { 'highway': 'unclassified' }
+  }]), 'highway: unclassified')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
+		'tags' : { 'name': 'Новаторський в’їзд', 'highway': 'service', 'name:ru': 'Новаторский въезд', 'name:uk': 'Новаторський в’їзд' }
+  }]), 'highway: service')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
+		'tags' : { railway: 'subway', service: 'yard' }
+  }]), 'service: yard')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
+		'tags' : { 'barrier': 'fence' }
+  }]), 'barrier: fence')
+  t.notOk(isArea([{ 
+    'type' : 'way',
+    'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
+		'tags' : { 'gauge': '1520', 'usage': 'main', 'building': 'no', 'voltage': '3000', 'frequency': '0', 'electrified': 'contact_line' }
+  }]), 'building: no')
   t.end()
 })
