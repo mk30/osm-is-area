@@ -1,5 +1,5 @@
 {
-  "name": "osm-area-test",
+  "name": "osm-is-area",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -7,7 +7,7 @@
     "test": "tape test/*.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "osm-polygon-features": "^0.9.2"
   },
