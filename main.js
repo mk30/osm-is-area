@@ -1,6 +1,6 @@
 var polygonFeatures = require('osm-polygon-features')
 
-function testItem (item) {
+module.exports = function testItem (item) {
   var isArea = false
   if (item.type === 'node') { isArea = false }
   else if (item.type === 'way' && item.refs[0] === item.refs[item.refs.length - 1]) {
@@ -27,12 +27,4 @@ function testItem (item) {
     return isArea
   }
   else if (item.type === 'relation')  { console.log('relation'); return false }
-}
-
-module.exports = function isArea (itemArray) {
-  var result = false
-  itemArray.forEach(function (item) {
-    result = result || testItem(item)
-  })
-  return result
 }
