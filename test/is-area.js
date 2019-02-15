@@ -101,10 +101,104 @@ test('is-area', function (t) {
 
 //relations
 
-  t.notOk(isArea({ 
-    'type' : 'way',
-    'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
-    'tags' : { 'gauge': '1520', 'usage': 'main', 'building': 'no', 'voltage': '3000', 'frequency': '0', 'electrified': 'contact_line' }
-  }), 'building: no')
+  t.ok(isArea({
+    type: 'relation',
+    members: [
+      {
+        type: 'way',
+        id: 5,
+        role: 'outer'
+      },
+      {
+        type: 'way',
+        id: 4,
+        role: 'outer'
+      }
+    ]
+  }, {
+    4: {
+      type: 'way',
+      refs: [88493337, 22338574, 88493943]
+    },
+    5: {
+      type: 'way',
+      refs: [88493943, 223395434, 88493337]
+    }
+  }), 'closed multipolygon')
+  t.notOk(isArea({
+    type: 'relation',
+    members: [
+      {
+        type: 'way',
+        id: 4,
+        role: 'outer'
+      },
+      {
+        type: 'way',
+        id: 5,
+        role: 'outer'
+      },
+      {
+        type: 'way',
+        id: 6,
+        role: 'outer'
+      },
+      {
+        type: 'way',
+        id: 7,
+        role: 'outer'
+      }
+    ]
+  }, {
+    4: {
+      type: 'way',
+      refs: [88493337, 22338574, 88493943]
+    },
+    5: {
+      type: 'way',
+      refs: [88493943, 7333884, 22439483]
+    },
+    6: {
+      type: 'way',
+      refs: [22439483, 54347788, 88493337]
+    },
+    7: {
+      type: 'way',
+      refs: [88493337, 3695546, 22439483]
+    }
+  }), 'some endpoints are endpoints for more than 2 ways')
+  t.notOk(isArea({
+    type: 'relation',
+    members: [
+      {
+        type: 'way',
+        id: 4,
+        role: 'outer'
+      },
+      {
+        type: 'way',
+        id: 6,
+        role: 'outer'
+      },
+      {
+        type: 'way',
+        id: 5,
+        role: 'outer'
+      }
+    ]
+  }, {
+    4: {
+      type: 'way',
+      refs: [88493337, 22338574, 88493943]
+    },
+    6: {
+      type: 'way',
+      refs: [88493943, 7333884, 77765562]
+    },
+    5: {
+      type: 'way',
+      refs: [22439483, 54347788, 88493337]
+    }
+  }), 'unclosed polygon')
   t.end()
 })
