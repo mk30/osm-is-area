@@ -13,11 +13,6 @@ test('is-area', function (t) {
     'refs' : [ 295875125, 1249874134, 6625196725, 453667909 ],
     'tags' : { 'highway' : 'service' }
   }), 'not a closed way')
-  t.notOk(isArea({ 
-    'type' : 'relation',
-    'refs' : [ 5872259125, 2114987434, 7625196725, 753667909 ],
-    'tags' : { 'highway': 'primary', 'surface': 'asphalt' }
-  }), 'relation')
   t.ok(isArea({ 
     'type' : 'way',
     'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],

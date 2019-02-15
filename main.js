@@ -27,7 +27,8 @@ module.exports = function testItem (item, members) {
     return isArea
   }
   else if (item.type === 'relation')  { 
-    console.log(item.members[0])
+    if (!item.members) console.log('UNEXPECTED ITEM', item.members)
+
     return false 
 
   }
