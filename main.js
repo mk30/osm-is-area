@@ -4,7 +4,7 @@ module.exports = function testItem (item, members) {
   var isArea = false
   if (item.type === 'node') { isArea = false }
   else if (item.type === 'way' && (item.refs[0] === item.refs[item.refs.length -
-  1]) || item.refs[0][0] === item.refs[item.refs.length - 1][0] &&
+  1]) || item.type === 'way' && item.refs[0][0] === item.refs[item.refs.length - 1][0] &&
   item.refs[0][1] === item.refs[item.refs.length - 1][1]){
     if (item.tags === {}) { isArea = false }
     if (item.tags['area'] === 'no') { isArea = false }

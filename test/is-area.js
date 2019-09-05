@@ -101,7 +101,7 @@ test('is-area', function (t) {
   }), 'building: no')
 
 //relations
-/*
+
   t.ok(isArea({
     'type' : 'relation',
     'tags' : {},
@@ -229,6 +229,6 @@ test('is-area', function (t) {
       'refs': [22439483, 54347788, 88493337]
     }
   }), 'unclosed polygon')
-*/
+
   t.end()
 })
