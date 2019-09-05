@@ -7,6 +7,12 @@ test('is-area', function (t) {
     'refs' : [ 258759125, 1124987434, 1625196725, 258759125 ],
     'tags' : { 'name': 'Щербачевский лес', 'natural' : 'wood' }
   }), 'natural: wood')
+  t.ok(isArea({ 
+    'type' : 'way',
+    'refs' : [ [ 36.282718, 50.0142346 ], [ 36.283346300000005,
+                50.013636600000005 ], [ 36.282718, 50.0142346 ] ],
+    'tags' : { 'name': 'Щербачевский лес', 'natural' : 'wood' }
+  }), 'natural: wood ; dereferenced')
   t.notOk(isArea({ 'type' : 'node' }), 'node')
   t.notOk(isArea({ 
     'type' : 'way',
@@ -95,105 +101,134 @@ test('is-area', function (t) {
   }), 'building: no')
 
 //relations
-
+/*
   t.ok(isArea({
-    type: 'relation',
-    members: [
+    'type' : 'relation',
+    'tags' : {},
+    'members' : [
       {
-        type: 'way',
-        id: 5,
-        role: 'outer'
+        'type': 'way',
+        'id': 5,
+        'role': 'outer'
       },
       {
-        type: 'way',
-        id: 4,
-        role: 'outer'
+        'type': 'way',
+        'id': 4,
+        'role': 'outer'
       }
     ]
   }, {
     4: {
-      type: 'way',
-      refs: [88493337, 22338574, 88493943]
+      'type': 'way',
+      'refs': [88493337, 22338574, 88493943]
     },
     5: {
-      type: 'way',
-      refs: [88493943, 223395434, 88493337]
+      'type': 'way',
+      'refs': [88493943, 223395434, 88493337]
     }
   }), 'closed multipolygon')
-  t.notOk(isArea({
-    type: 'relation',
-    members: [
+  t.ok(isArea({
+    'type': 'relation',
+    'tags': { 'type' : 'multipolygon'},
+    'members': [
       {
-        type: 'way',
-        id: 4,
-        role: 'outer'
+        'type': 'way',
+        'id': 5,
+        'role': 'outer'
       },
       {
-        type: 'way',
-        id: 5,
-        role: 'outer'
-      },
-      {
-        type: 'way',
-        id: 6,
-        role: 'outer'
-      },
-      {
-        type: 'way',
-        id: 7,
-        role: 'outer'
+        'type': 'way',
+        'id': 4,
+        'role': 'outer'
       }
     ]
   }, {
     4: {
-      type: 'way',
-      refs: [88493337, 22338574, 88493943]
+      'type': 'way',
+      'refs': [88493337, 22338574, 88493943]
     },
     5: {
-      type: 'way',
-      refs: [88493943, 7333884, 22439483]
+      'type': 'way',
+      'refs': [88493943, 223395434, 88493337]
+    }
+  }), 'tag type multipolygon')
+  t.notOk(isArea({
+    'type': 'relation',
+    'tags': {},
+    'members': [
+      {
+        'type': 'way',
+        'id': 4,
+        'role': 'outer'
+      },
+      {
+        'type': 'way',
+        'id': 5,
+        'role': 'outer'
+      },
+      {
+        'type': 'way',
+        'id': 6,
+        'role': 'outer'
+      },
+      {
+        'type': 'way',
+        'id': 7,
+        'role': 'outer'
+      }
+    ]
+  }, {
+    4: {
+      'type': 'way',
+      'refs': [88493337, 22338574, 88493943]
+    },
+    5: {
+      'type': 'way',
+      'refs': [88493943, 7333884, 22439483]
     },
     6: {
-      type: 'way',
-      refs: [22439483, 54347788, 88493337]
+      'type': 'way',
+      'refs': [22439483, 54347788, 88493337]
     },
     7: {
-      type: 'way',
-      refs: [88493337, 3695546, 22439483]
+      'type': 'way',
+      'refs': [88493337, 3695546, 22439483]
     }
   }), 'some endpoints are endpoints for more than 2 ways')
   t.notOk(isArea({
-    type: 'relation',
-    members: [
+    'type': 'relation',
+    'tags': {},
+    'members': [
       {
-        type: 'way',
-        id: 4,
-        role: 'outer'
+        'type': 'way',
+        'id': 4,
+        'role': 'outer'
       },
       {
-        type: 'way',
-        id: 6,
-        role: 'outer'
+        'type': 'way',
+        'id': 6,
+        'role': 'outer'
       },
       {
-        type: 'way',
-        id: 5,
-        role: 'outer'
+        'type': 'way',
+        'id': 5,
+        'role': 'outer'
       }
     ]
   }, {
     4: {
-      type: 'way',
-      refs: [88493337, 22338574, 88493943]
+      'type': 'way',
+      'refs': [88493337, 22338574, 88493943]
     },
     6: {
-      type: 'way',
-      refs: [88493943, 7333884, 77765562]
+      'type': 'way',
+      'refs': [88493943, 7333884, 77765562]
     },
     5: {
-      type: 'way',
-      refs: [22439483, 54347788, 88493337]
+      'type': 'way',
+      'refs': [22439483, 54347788, 88493337]
     }
   }), 'unclosed polygon')
+*/
   t.end()
 })
