@@ -19,6 +19,12 @@ test('is-area', function (t) {
     'refs' : [ 295875125, 1249874134, 6625196725, 453667909 ],
     'tags' : { 'highway' : 'service' }
   }), 'not a closed way')
+  t.notOk(isArea({ 
+    'type' : 'way',
+    'refs' : [ [ 36.282718, 50.0142346 ], [ 36.283346300000005,
+                50.013636600000005 ], [ 36.3, 50.16 ] ],
+    'tags' : { 'highway' : 'service' }
+  }), 'not a closed way ; dereferenced')
   t.ok(isArea({ 
     'type' : 'way',
     'refs' : [ 753667909, 2114987434, 7625196725, 753667909 ],
