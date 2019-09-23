@@ -1,8 +1,9 @@
 var polygonFeatures = require('osm-polygon-features')
 
-module.exports = function testItem (item, members) {
+module.exports = function testItem (item) {
   var isArea = false
   if (item.type === 'node') { isArea = false }
+  else if (item.type === 'way' && item.refs.length < 3) { isArea = false }
   else if (item.type === 'way' && (item.refs[0] === item.refs[item.refs.length -
   1]) || item.type === 'way' && item.refs[0][0] === item.refs[item.refs.length - 1][0] &&
   item.refs[0][1] === item.refs[item.refs.length - 1][1]){

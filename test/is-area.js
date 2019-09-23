@@ -2,6 +2,7 @@ var isArea = require('../')
 var test = require('tape')
 
 test('is-area', function (t) {
+  t.notOk(isArea({ 'type' : 'node' }), 'node')
   t.ok(isArea({ 
     'type' : 'way',
     'refs' : [ 258759125, 1124987434, 1625196725, 258759125 ],
@@ -13,7 +14,11 @@ test('is-area', function (t) {
                 50.013636600000005 ], [ 36.282718, 50.0142346 ] ],
     'tags' : { 'name': 'Щербачевский лес', 'natural' : 'wood' }
   }), 'natural: wood ; dereferenced')
-  t.notOk(isArea({ 'type' : 'node' }), 'node')
+  t.notOk(isArea({ 
+    'type' : 'way',
+    'refs' : [ 258759125 ],
+    'tags' : { 'name': 'Щербачевский лес', 'natural' : 'wood' }
+  }), 'way with less than 3 refs')
   t.notOk(isArea({ 
     'type' : 'way',
     'refs' : [ 295875125, 1249874134, 6625196725, 453667909 ],
