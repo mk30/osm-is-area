@@ -1,4 +1,4 @@
-determine if an [http://openstreetmap.org/](OpenStreetMap) entry is an [https://wiki.openstreetmap.org/wiki/Area](area) or not.
+determine if an [OpenStreetMap](http://openstreetmap.org/) entry is an [area](https://wiki.openstreetmap.org/wiki/Area) or not.
 
 
 # example
