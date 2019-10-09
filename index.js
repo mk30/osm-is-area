@@ -27,7 +27,6 @@ module.exports = function testItem (item) {
         }
       }
     })
-    return isArea
   }
   else if (item.type === 'relation')  { 
     if (!item.members) {
@@ -38,7 +37,7 @@ module.exports = function testItem (item) {
       isArea = true
       console.log('multipolygon')
     }
-    //item.members.forEach()
+    else isArea = false
   }
-  return false 
+  return isArea 
 }

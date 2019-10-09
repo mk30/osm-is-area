@@ -2,9 +2,10 @@
   "name": "osm-is-area",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "example": "node ./example/areatest.js"
   },
   "author": "",
   "license": "MIT",

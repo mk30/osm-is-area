@@ -114,31 +114,6 @@ test('is-area', function (t) {
 //relations
 
   t.ok(isArea({
-    'type' : 'relation',
-    'tags' : {},
-    'members' : [
-      {
-        'type': 'way',
-        'id': 5,
-        'role': 'outer'
-      },
-      {
-        'type': 'way',
-        'id': 4,
-        'role': 'outer'
-      }
-    ]
-  }, {
-    4: {
-      'type': 'way',
-      'refs': [88493337, 22338574, 88493943]
-    },
-    5: {
-      'type': 'way',
-      'refs': [88493943, 223395434, 88493337]
-    }
-  }), 'closed multipolygon')
-  t.ok(isArea({
     'type': 'relation',
     'tags': { 'type' : 'multipolygon'},
     'members': [
@@ -174,49 +149,6 @@ test('is-area', function (t) {
       },
       {
         'type': 'way',
-        'id': 5,
-        'role': 'outer'
-      },
-      {
-        'type': 'way',
-        'id': 6,
-        'role': 'outer'
-      },
-      {
-        'type': 'way',
-        'id': 7,
-        'role': 'outer'
-      }
-    ]
-  }, {
-    4: {
-      'type': 'way',
-      'refs': [88493337, 22338574, 88493943]
-    },
-    5: {
-      'type': 'way',
-      'refs': [88493943, 7333884, 22439483]
-    },
-    6: {
-      'type': 'way',
-      'refs': [22439483, 54347788, 88493337]
-    },
-    7: {
-      'type': 'way',
-      'refs': [88493337, 3695546, 22439483]
-    }
-  }), 'some endpoints are endpoints for more than 2 ways')
-  t.notOk(isArea({
-    'type': 'relation',
-    'tags': {},
-    'members': [
-      {
-        'type': 'way',
-        'id': 4,
-        'role': 'outer'
-      },
-      {
-        'type': 'way',
         'id': 6,
         'role': 'outer'
       },
@@ -239,7 +171,7 @@ test('is-area', function (t) {
       'type': 'way',
       'refs': [22439483, 54347788, 88493337]
     }
-  }), 'unclosed polygon')
+  }), 'not multipolygon')
 
   t.end()
 })
