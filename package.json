@@ -1,13 +1,13 @@
 {
   "name": "osm-is-area",
   "version": "1.0.0",
-  "description": "",
+  "description": "determine if an OpenStreetMap entry is an area or not",
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js",
     "example": "node ./example/areatest.js"
   },
-  "author": "",
+  "author": "mk30",
   "license": "MIT",
   "dependencies": {
     "osm-polygon-features": "^0.9.2"

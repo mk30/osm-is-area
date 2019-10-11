@@ -1,119 +1,91 @@
 determine if an [OpenStreetMap](http://openstreetmap.org/) entry is an [area](https://wiki.openstreetmap.org/wiki/Area) or not.
 
+this package uses
+[osm-polygon-features](https://www.npmjs.com/package/osm-polygon-features) to
+determine if some closed ways should be treated as polygons or lines.
 
 # example
 
 ```
-var osmIsArea = require('../index.js')
-var entries = [
-  { 'type': 'way',
-    'id': 4421943,
-    'tags': { 'highway': 'service' },
-    'refs':
-     [ 27119458,
-       1764217171,
-       27119461,
-       1069372913,
-       2681824362,
-       1069372626,
-       1764230249,
-       1764230245,
-       1764230252,
-       1764230257,
-       5530415689,
-       1764230254,
-       27119458] },
-  { 'type': 'way',
-    'id': 23873915,
-    'tags': { 'waterway': 'riverbank' },
-    'refs':
-     [ 3584796914,
-       4856390070,
-       4856390069,
-       4856390067,
-       1003530924,
-       1003530997,
-       1003531088,
-       997023023,
-       997021214,
-       1003530837,
-       258759210,
-       997025704,
-       997024369,
-       3584796914 ]},
-  { 'type': 'way',
-    'id': 4421935,
-    'tags':
-     { 'highway': 'primary',
-       'surface': 'asphalt' },
-    'refs':
-     [ 746891652,
-       408306337,
-       1973511025,
-       27119389,
-       1687103092,
-       1687103094,
-       746891616,
-       1069614313,
-       6109044148,
-       746891644,
-       408299491,
-       1069613404,
-       1687103099,
-       730024891,
-       1035333171,
-       746891666 ] },
-  { 'type': 'way',
-    'id': 23874706,
-    'tags': { 'name': 'Щербачевский лес', 'natural': 'wood' },
-    'refs':
-     [ 1125622707,
-       1007659859,
-       1125622501,
-       1125622593,
-       258769096,
-       5341012025,
-       5341012024,
-       1125622552,
-       1125622605,
-       1125622588,
-       1007659898,
-       1125622707 ] },
-  { 'type': 'way',
-    'id': 34333478,
-    'tags':
-     { 'name': 'Лісовий заказник «Григорівський бір»',
-       'boundary': 'protected_area' },
-    'refs':
-     [ 393849373,
-       1010883354,
-       1010883623,
-       3614537224,
-       393849374,
-       393849375,
-       1010883316,
-       2833250317,
-       1010883465,
-       393849376,
-       1010883341,
-       393849377,
-       393849373 ] }
-]
+var osmIsArea = require('osm-is-area')
 
-entries.forEach(function (entry) {
-  console.log(osmIsArea(entry))
-})
-```
+// first and last ref match, but { highway: 'service' } is not an area:
 
-running the above example will return:
+console.log(osmIsArea({
+  type: 'way',
+  id: 4421943,
+  tags: { highway: 'service' },
+  refs: [ 27119458, 1764217171, 27119461, 1069372913,
+    1764230257, 5530415689, 1764230254, 27119458]
+})) // false
 
-```
-false
-true
-false
-true
-true
+
+// first and last ref match; { waterway: 'riverbank' } is a valid area:
+
+console.log(osmIsArea({
+  type: 'way',
+  id: 23873915,
+  tags: { waterway: 'riverbank' },
+  refs: [ 3584796914, 4856390070, 4856390069, 4856390067, 258759210, 997025704, 997024369, 3584796914 ]
+})) // true
+
+// first and last ref don't match - not a closed way:
+
+console.log(osmIsArea({
+  type: 'way',
+  id: 4421935,
+  tags: { highway: 'primary', surface: 'asphalt' },
+  refs: [ 746891652, 408306337, 27119389, 1687103099, 730024891, 1035333171, 746891666 ]
+})) // false
+
+// first and last ref match; { natural: 'wood' } is a valid area:
+
+console.log(osmIsArea({
+  type: 'way',
+  id: 23874706,
+  tags: { name: 'Щербачевский лес', natural: 'wood' },
+  refs: [ 1125622707, 1007659859, 1125622501, 1125622605, 1125622588, 1007659898, 1125622707 ]
+})) // true
+
+// first and last ref match; { boundary: 'protected area' } is a valid area:
+
+console.log(osmIsArea({
+  type: 'way',
+  id: 34333478,
+  tags: { name: 'Лісовий заказник «Григорівський бір»', boundary: 'protected_area' },
+  refs: [ 393849373, 1010883354, 1010883623, 393849376, 1010883341, 393849377, 393849373 ]
+})) // true
 ```
 
 to try this example on your own machine, clone this repository, navigate to the
 directory you cloned into, and run `npm run example`.
+
+# api
+
+```
+var osmIsArea = require('osm-is-area')
+```
+
+## osmIsArea(entry)
+
+takes an osm `entry` object and returns `true` or `false`.
+
+input osm objects should be formatted as
+[osm-pbf-parser](https://www.npmjs.com/package/osm-pbf-parser) returns them.
+specifically, this module expects:
+
+* type - a string specifying `'node'`, `'way'`, or `'relation'`
+* tags - an object mapping osm tag keys to values
+* refs - an array of osm id's as numbers (only relevant for ways)
+* members - an array of member objects (only relevant for relations)
+
+the only thing that's relevant about the `members` array is whether it's empty
+(module will return `false` if this is the case).
+
+this module assumes that all relations of type `'multipolygon'` are areas, and
+that no other relations are areas. learn more about
+[relation:mulitpolygon](https://wiki.openstreetmap.org/wiki/Relation:multipolygon).
+
+# license
+
+MIT

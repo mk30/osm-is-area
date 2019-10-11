@@ -29,13 +29,11 @@ module.exports = function testItem (item) {
     })
   }
   else if (item.type === 'relation')  { 
-    if (!item.members) {
+    if (!Array.isArray(item.members) || item.members.length === 0) {
       isArea = false
-      console.log('UNEXPECTED ITEM: item.members = ', item.members)
     }
     else if (item.tags.type === 'multipolygon') { 
       isArea = true
-      console.log('multipolygon')
     }
     else isArea = false
   }

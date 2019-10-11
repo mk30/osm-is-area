@@ -128,16 +128,8 @@ test('is-area', function (t) {
         'role': 'outer'
       }
     ]
-  }, {
-    4: {
-      'type': 'way',
-      'refs': [88493337, 22338574, 88493943]
-    },
-    5: {
-      'type': 'way',
-      'refs': [88493943, 223395434, 88493337]
-    }
-  }), 'tag type multipolygon')
+  }
+}), 'tag type multipolygon')
   t.notOk(isArea({
     'type': 'relation',
     'tags': {},
@@ -158,20 +150,8 @@ test('is-area', function (t) {
         'role': 'outer'
       }
     ]
-  }, {
-    4: {
-      'type': 'way',
-      'refs': [88493337, 22338574, 88493943]
-    },
-    6: {
-      'type': 'way',
-      'refs': [88493943, 7333884, 77765562]
-    },
-    5: {
-      'type': 'way',
-      'refs': [22439483, 54347788, 88493337]
-    }
-  }), 'not multipolygon')
+  }
+}), 'not multipolygon')
 
   t.end()
 })
