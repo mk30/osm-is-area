@@ -84,7 +84,7 @@ the only thing that's relevant about the `members` array is whether it's empty
 
 this module assumes that all relations of type `'multipolygon'` are areas, and
 that no other relations are areas. learn more about
-[relation:mulitpolygon](https://wiki.openstreetmap.org/wiki/Relation:multipolygon).
+[relation:multipolygon](https://wiki.openstreetmap.org/wiki/Relation:multipolygon).
 
 # license
 
