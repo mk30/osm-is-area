@@ -1,6 +1,6 @@
 {
   "name": "osm-is-area",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "determine if an OpenStreetMap entry is an area or not",
   "main": "index.js",
   "scripts": {
