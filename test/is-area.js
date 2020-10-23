@@ -110,6 +110,12 @@ test('is-area', function (t) {
     'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
     'tags' : { 'gauge': '1520', 'usage': 'main', 'building': 'no', 'voltage': '3000', 'frequency': '0', 'electrified': 'contact_line' }
   }), 'building: no')
+  t.notOk(isArea({ 
+    'type' : 'way',
+    'refs' : [ 2372943315, 2372943316, 2372943317 ],
+    'tags' : { boundary: 'administrative', admin_level: '4' }
+  }), 'not a closed way')
+
 
 //relations
 
@@ -128,8 +134,7 @@ test('is-area', function (t) {
         'role': 'outer'
       }
     ]
-  }
-}), 'tag type multipolygon')
+  }), 'tag type multipolygon')
   t.notOk(isArea({
     'type': 'relation',
     'tags': {},
@@ -150,8 +155,7 @@ test('is-area', function (t) {
         'role': 'outer'
       }
     ]
-  }
-}), 'not multipolygon')
+  }), 'not multipolygon')
 
   t.end()
 })
