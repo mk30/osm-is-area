@@ -24,9 +24,12 @@ module.exports = function testItem (item) {
         }
         if (key === obj.key && obj.polygon === 'blacklist') {
           isArea = true  
-          obj.values.forEach(function (val) {
-            if (item.tags[key] === val) { isArea = false }
-          })
+          if (key === 'natural' && item.tags[key] === 'coastline') isArea = true
+          else {
+            obj.values.forEach(function (val) {
+              if (item.tags[key] === val) { isArea = false }
+            })
+          }
         }
       }
     })
