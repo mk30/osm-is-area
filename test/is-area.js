@@ -105,6 +105,11 @@ test('is-area', function (t) {
     'refs' : [ 611167919, 2114987434, 7625196725, 611167919 ],
     'tags' : { 'barrier': 'fence' }
   }), 'barrier: fence')
+  /* even though osm-polygon-features has natural:coastline on the blacklist for
+    areas, natural:coastline can be drawn around an island (ex:
+    https://www.openstreetmap.org/way/25450646). the following test checks for
+    this case.
+  */
   t.ok(isArea({ 
     'type' : 'way',
     'refs' : [ 73944625, 5810625233, 5810625234, 5810625235, 73944636, 73944621, 73944625 ],
